@@ -55,12 +55,14 @@ class Indeed(JobFunnel):
         """gets the indeed search url"""
         if method == 'get':
             # form job search url
+            myProvince = "" if self.search_terms['region']['province'] == "" else ("%2C+{0}".format(self.search_terms['region']['province']))
+
             search = ('http://www.indeed.{0}/jobs?'
-                      'q={1}&l={2}%2C+{3}&radius={4}&limit={5}&filter={6}'.format(
+                      'q={1}&l={2}{3}&radius={4}&limit={5}&filter={6}'.format(
                 self.search_terms['region']['domain'],
                 self.query,
                 self.search_terms['region']['city'],
-                self.search_terms['region']['province'],
+                myProvince,
                 self.convert_radius(self.search_terms['region']['radius']),
                 self.max_results_per_page,
                 int(self.similar_results)))
